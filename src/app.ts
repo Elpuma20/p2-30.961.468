@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
 // Configurar archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -16,6 +16,12 @@ app.get('/', (req: Request, res: Response) => {
     res.render('index');
 });
 
-app.listen(port, () => {
+// Manejo de errores
+app.use((err: Error, req: Request, res: Response, next: Function) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+app.listen(port, '0.0.0.0', () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });

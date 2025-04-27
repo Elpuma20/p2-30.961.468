@@ -4,7 +4,9 @@ services:
     env: node
     rootDir: .
     buildCommand: npm install && npm run build
-    startCommand: node dist/app.js
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
-        value: production 
+        value: production
+      - key: PORT
+        value: 10000 

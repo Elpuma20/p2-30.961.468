@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "tsc && mkdir -p dist/public dist/views && cp -r src/public/* dist/public/ && cp -r src/views/* dist/views/",
     "start": "node dist/app.js",
     "dev": "ts-node src/app.ts",
