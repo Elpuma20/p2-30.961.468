@@ -1,0 +1,33 @@
+{
+  "name": "p2-30.961.468",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && xcopy /E /I /Y src\\public dist\\public && xcopy /E /I /Y src\\views dist\\views",
+    "start": "node dist/app.js",
+    "dev": "ts-node src/app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git, module",
+    "url": "git+https://github.com/Elpuma20/p2-30.961.468.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elpuma20/p2-30.961.468/issues"
+  },
+  "homepage": "https://github.com/Elpuma20/p2-30.961.468#readme",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
