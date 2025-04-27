@@ -1,31 +1,38 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "ES6",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "es2018",
 
     /* Modules */
-    "module": "commonjs",                                /* Specify what module code is generated. */
-    "rootDir": "./src",                                  /* Specify the root folder within your source files. */
-    "outDir": "./dist",                               /* Redirect output structure to the directory. */
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
    
     /* JavaScript Support */
-    "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
-    "checkJs": true,                                  /* Enable error reporting in type-checked JavaScript files. */
+    "allowJs": true,
+    "checkJs": true,
    
     /* Interop Constraints */
-    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-    "noImplicitAny": true,                               /* Raise error on expressions and declarations with an implied 'any' type. */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
 
     /* Type Checking */
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    "strict": true,
 
     /* Completeness */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,
+
+    /* Module Resolution */
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.js"
+    "./src/**/*"
   ],
   "exclude": [
     "./node_modules",
