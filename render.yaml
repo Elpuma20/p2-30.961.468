@@ -2,6 +2,7 @@ services:
   - type: web
     name: consultoria-financiera
     env: node
+    rootDir: .
     buildCommand: npm install && npm run build
     startCommand: node dist/app.js
     envVars:
