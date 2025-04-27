@@ -4,7 +4,7 @@
   "main": "dist/app.js",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsc && mkdir -p dist/public/stylesheets dist/public/images && cp -r src/public/stylesheets/* dist/public/stylesheets/ && cp -r src/public/images/* dist/public/images/ && cp -r src/views/* dist/views/",
+    "build": "tsc && mkdir -p dist/public/stylesheets dist/public/images dist/views && cp -r src/public/stylesheets/* dist/public/stylesheets/ && cp -r src/public/images/* dist/public/images/ && cp -r src/views/* dist/views/",
     "start": "node dist/app.js",
     "dev": "ts-node src/app.ts",
     "lint": "eslint . --ext .ts",
