@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 import path from 'path';
 
 const app = express();
-const port = Number(process.env.PORT) || 3000;
+const port: number = Number(process.env.PORT) || 3000;
 
 // Configurar archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -12,16 +12,18 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Rutas
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response): void => {
     res.render('index');
 });
 
 // Manejo de errores
-app.use((err: Error, req: Request, res: Response, next: Function) => {
+const errorHandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction): void => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
-});
+};
 
-app.listen(port, '0.0.0.0', () => {
+app.use(errorHandler);
+
+app.listen(port, '0.0.0.0', (): void => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
