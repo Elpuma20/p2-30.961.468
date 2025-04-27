@@ -5,7 +5,8 @@ const app = express();
 const port: number = Number(process.env.PORT) || 3000;
 
 // Configurar archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Configurar motor de vistas EJS
 app.set('view engine', 'ejs');
