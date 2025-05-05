@@ -92,7 +92,6 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 40px 20px;
     background-color: #69778d;
     border-radius: 8px;
 }
@@ -115,15 +114,13 @@ h2 {
 }
 
 .hero-image {
-    flex: 1;
-    text-align: center;
+ background-image: url('https://spasesores.com/wp-content/uploads/2021/10/SP-ASESORES-Consultoria-Financiera-e1634195217140.png');
+ background-size: cover;
+ background-repeat: no-repeat;
+ width: 100%;
+ height: 100%;
 }
 
-.hero-image img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
 
 .button {
     display: inline-block;

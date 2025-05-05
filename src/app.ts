@@ -21,7 +21,15 @@ app.get('/contacto', (req: Request, res: Response) => {
 
 });
 app.get('/recursos', (req: Request, res: Response) => {
-    res.render('recusrsos', {});
+    res.render('recursos', {});
+
+});
+app.get('/servicio', (req: Request, res: Response) => {
+    res.render('servicio', {});
+
+});
+app.get('/beneficios', (req: Request, res: Response) => {
+    res.render('beneficios', {});
 
 });
 // Iniciar el servidor
