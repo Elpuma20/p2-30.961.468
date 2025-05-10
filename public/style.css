@@ -3,13 +3,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #8b8f8b;
+    background-color: #3a5a70;
     color: #333;
     line-height: 1.6;
 }
 
 header {
-    background-color: #353332;
+    background-color: #1d3557;
     color: white;
     padding: 1rem 0;
     position: sticky;
@@ -49,7 +49,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #555;
+    background-color: #162945;
 }
 
 .social-links a {
@@ -63,11 +63,15 @@ nav ul li a:hover {
     vertical-align: middle;
 }
 
+.social-icons a {
+    color: white;
+}
+
 main {
     padding: 20px;
     max-width: 1200px;
     margin: 20px auto;
-    background-color: white;
+    background-color: #f1f1f1;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
@@ -92,7 +96,8 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #69778d;
+    padding: 40px 20px;
+    background-color: #f1f1f1;
     border-radius: 8px;
 }
 
@@ -114,17 +119,19 @@ h2 {
 }
 
 .hero-image {
- background-image: url('https://spasesores.com/wp-content/uploads/2021/10/SP-ASESORES-Consultoria-Financiera-e1634195217140.png');
- background-size: cover;
- background-repeat: no-repeat;
- width: 100%;
- height: 100%;
+    flex: 1;
+    text-align: center;
 }
 
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
 
 .button {
     display: inline-block;
-    background-color: #007bff;
+    background-color: #2a9d8f;
     color: white;
     padding: 10px 20px;
     text-decoration: none;
@@ -133,7 +140,7 @@ h2 {
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #2a9d8f;
 }
 
 .service ul {
@@ -144,7 +151,7 @@ h2 {
 
 .service ul li {
     padding: 8px 0;
-    border-bottom: 1px dotted #43b0be;
+    border-bottom: 1px dotted #f1f1f1;
 }
 
 .service ul li:last-child {
@@ -167,15 +174,15 @@ h2 {
 }
 
 #servicio {
-    background-color: #76ac86; /* Un gris claro */
+    background-color: #f1f1f1;
   }
   
   .servicios {
-    background-color: lightblue; /* Un azul claro */
+    background-color: lightblue;
   }
   
 .benefits {
-    background-color: #8c8f67;
+    background-color: #f1f1f1;
     padding: 30px 20px;
     border-radius: 8px;
 }
@@ -233,7 +240,7 @@ h2 {
 .form-group input[type="tel"],
 .form-group textarea {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     border-radius: 5px;
     font-size: 1rem;
 }
@@ -247,7 +254,7 @@ h2 {
 }
 
 .contact {
-    background-color: #b1cfee;
+    background-color: #f1f1f1;
   }
 
 .resources ul {
@@ -271,7 +278,7 @@ h2 {
 }
 
 footer {
-    background-color: #333;
+    background-color: #2a9d8f;
     color: white;
     text-align: center;
     padding: 1rem 0;
@@ -331,9 +338,9 @@ footer .social-links {
   
   .button {
     display: block;
-    width: 100%;
+    width: 20%;
     padding: 0.8rem;
-    background-color: #0077cc;
+    background-color: #2a9d8f;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -343,7 +350,7 @@ footer .social-links {
   }
   
   .button:hover {
-    background-color: #005fa3;
+    background-color: #2a9d8f;
   }
   
   /* Estilo del popup */

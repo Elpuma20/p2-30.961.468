@@ -35,24 +35,27 @@ app.get('/contacto', (req: Request, res: Response) => {
     res.render('contacto', { success : false });
   });
 
-  app.post(
-    '/enviar-contacto',
-    (req: Request, res: Response, next: NextFunction) => {
-      contactsCtrl
-        .add(req, res, next)
-        .catch(next);      // Para que Express capture el error
-    }
-  );
-  
-  app.get(
-    '/admin/contacts',
-    (req: Request, res: Response, next: NextFunction) => {
-      contactsCtrl
-        .index(req, res, next)
-        .catch(next);
-    }
-  );
+  app.get('/contacto', (req: Request, res: Response) => {
 
+    res.render('contacto', { success : false });
+  });
+  app.post(
+    '/enviar-contacto',
+    (req: Request, res: Response, next: NextFunction) => {
+      contactsCtrl
+        .add(req, res, next)
+        .catch(next);      // Para que Express capture el error
+    }
+  );
+  
+  app.get(
+    '/admin/contacts',
+    (req: Request, res: Response, next: NextFunction) => {
+      contactsCtrl
+        .index(req, res, next)
+        .catch(next);
+    }
+  );
 // Mostrar formulario de pago
 app.get('/payment', (req, res) => {
     res.render('payment', { success: false, errors: [], data: {} });
@@ -69,17 +72,8 @@ app.get('/servicio', (req: Request, res: Response) => {
     res.render('servicio', {});
 
 });
-<<<<<<< HEAD
-app.get('/recursos', (req: Request, res: Response) => {
-    res.render('recursos', {});
-
-});
-app.get('/servicio', (req: Request, res: Response) => {
-    res.render('servicio', {});
-=======
 app.get('/inicio', (req: Request, res: Response) => {
     res.render('inicio', {});
->>>>>>> templeate
 
 });
 app.get('/beneficios', (req: Request, res: Response) => {
