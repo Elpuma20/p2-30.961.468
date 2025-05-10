@@ -284,6 +284,93 @@ footer {
 footer .social-links {
     margin-top: 10px;
 }
+/* Centrado del formulario y ancho limitado */
+.payment-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .payment h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  /* Espaciado y distribución del formulario */
+  .payment-form .form-group,
+  .payment-form .form-row {
+    margin-bottom: 1rem;
+  }
+  
+  .payment-form .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .payment-form .form-group.small {
+    flex: 1;
+  }
+  
+  .payment-form label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #444;
+  }
+  
+  .payment-form input,
+  .payment-form select,
+  .payment-form textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .button {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #005fa3;
+  }
+  
+  /* Estilo del popup */
+  .success-popup {
+    background-color: #e6ffed;
+    color: #2e7d32;
+    padding: 1rem;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Errores */
+  .errors {
+    background: #ffeaea;
+    color: #c62828;
+    border: 1px solid #f44336;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+      
 
 /* Diseño Responsive */
 @media (max-width: 768px) {

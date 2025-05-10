@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Contactos Registrados</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Contactos Registrados</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Nombre</th><th>Email</th><th>Comentario</th><th>IP</th><th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% contactos.forEach(c => { %>
+        <tr>
+          <td><%= c.id %></td>
+          <td><%= c.nombre %></td>
+          <td><%= c.email %></td>
+          <td><%= c.mensaje %></td>
+          <td><%= c.ip %></td>
+          <td><%= new Date(c.created_at).toLocaleString() %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <p><a href="/contacto">Volver al formulario</a></p>
+</body>
+</html>
