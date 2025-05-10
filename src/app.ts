@@ -64,12 +64,17 @@ app.get('/payment', (req, res) => {
     (req, res, next) => paymentCtrl.add(req, res, next).catch(next)
   );
 
-app.get('/recursos', (req: Request, res: Response) => {
-    res.render('recusrsos', {});
 
-});
 app.get('/servicio', (req: Request, res: Response) => {
     res.render('servicio', {});
+
+});
+app.get('/inicio', (req: Request, res: Response) => {
+    res.render('inicio', {});
+
+});
+app.get('/beneficios', (req: Request, res: Response) => {
+    res.render('beneficios', {});
 
 });
 // Iniciar el servidor
