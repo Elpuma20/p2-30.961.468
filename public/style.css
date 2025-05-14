@@ -266,6 +266,27 @@ h2 {
     padding: 8px 0;
 }
 
+.menu-icon {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.menu-icon .line {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+#menu-toggle {
+    display: none;
+}
+
 .resources ul li a {
     color: #007bff;
     text-decoration: none;
@@ -338,7 +359,7 @@ footer .social-links {
   
   .button {
     display: block;
-    width: 20%;
+    width: 50%;
     padding: 0.8rem;
     background-color: #2a9d8f;
     color: #fff;
@@ -378,6 +399,53 @@ footer .social-links {
 
 /* Diseño Responsive */
 @media (max-width: 768px) {
+    .navbar {
+        padding: 16px;
+    }
+
+    .menu-icon {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        height: 0;
+        overflow: hidden;
+        flex-direction: column;
+        background-color: #1d3557;
+        text-align: center;
+        transition: heigth 0.5s ease;
+    }
+
+    .nav-links li {
+        margin: 0;
+        padding: 20px 0;
+        width: 100%;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 10px 20px;
+    }
+
+    #menu-toggle:checked + .menu-icon + .nav-links {
+        height: 60vh;
+    }
+
+    #menu-toggle:checked + .menu-icon .line:nth-child(1) {
+        transform: rotate(45deg) translate(15px, 3px);
+    }
+
+    #menu-toggle:checked + .menu-icon .line:nth-child(2) {
+        transform:scale(0);
+    }
+
+    #menu-toggle:checked + .menu-icon .line:nth-child(3) {
+        transform: rotate(-45deg) translate(15px, -4px);
+    }
     nav {
         flex-direction: column;
         align-items: flex-start;
