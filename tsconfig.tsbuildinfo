@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/controllers/contactscontroller.ts","./src/controllers/paymentcontroller.ts","./src/models/contactsmodel.ts","./src/models/paymentmodel.ts","./src/routes/contacts.ts","./src/utils/db.ts","./src/utils/emailservice.ts","./src/utils/geolocationservice.ts"],"version":"5.8.3"}

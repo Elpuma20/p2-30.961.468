@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DYCJNXW8L2"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-DYCJNXW8L2');
+    </script>
 <head>
     <body>
         <header>
@@ -34,154 +42,121 @@
             </nav>
         </header>
   <main>
-  <section id="payment" class="payment">
+    <section id="payment" class="payment">
     <div class="payment-container">
 
-    <h2>Realiza tu Pago</h2>
+        <h2>Realiza tu Pago</h2>
 
-    <% if (success) { %>
-        <div class="success-popup">
-          <p>🎉 Pago realizado correctamente.</p>
+        <% if (success) { %>
+            <div class="success-popup">
+                <p>🎉 Pago realizado correctamente.</p>
+            </div>
+        <% } %>
+    
+        <% if (errors && errors.length) { %>
+            <ul class="errors">
+                <% errors.forEach(e => { %>
+                    <li><%= e %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+
+        <!-- Mensaje de tarjeta expirada -->
+        <div id="errorTarjeta" style="color: red; display: none;">
+            ❌ Tarjeta expirada
         </div>
-      <% } %>
-  
-      <% if (errors && errors.length) { %>
-        <ul class="errors">
-          <% errors.forEach(e => { %>
-            <li><%= e %></li>
-          <% }) %>
-        </ul>
-      <% } %>
 
-    <form action="/payment/add" method="POST" class="payment-form">
+        <form action="/payment/add" method="POST" class="payment-form" onsubmit="return validarTarjeta()">
 
-      <div class="form-group">
-        <label for="service">Servicio:</label>
-        <select id="service" name="service" required>
-          <option value="">-- Selecciona un servicio --</option>
-          <option value="consultoria"
-            <%= data.service === 'consultoria' ? 'selected' : '' %>>
-            Consultoría Financiera
-          </option>
-          <option value="planificacion"
-            <%= data.service === 'planificacion' ? 'selected' : '' %>>
-            Planificación Tributaria
-          </option>
-          <option value="auditoria"
-            <%= data.service === 'auditoria' ? 'selected' : '' %>>
-            Auditoría Contable
-          </option>
-        </select>
-      </div>
+            <div class="form-group">
+                <label for="service">Servicio:</label>
+                <select id="service" name="service" required>
+                    <option value="">-- Selecciona un servicio --</option>
+                    <option value="consultoria"
+                        <%= data.service === 'consultoria' ? 'selected' : '' %>>
+                        Consultoría Financiera
+                    </option>
+                    <option value="planificacion"
+                        <%= data.service === 'planificacion' ? 'selected' : '' %>>
+                        Planificación Tributaria
+                    </option>
+                    <option value="auditoria"
+                        <%= data.service === 'auditoria' ? 'selected' : '' %>>
+                        Auditoría Contable
+                    </option>
+                </select>
+            </div>
 
-      <div class="form-group">
-        <label for="email">Correo Electrónico:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          value="<%= data.email || '' %>"
-        />
-      </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required value="<%= data.email || '' %>" />
+            </div>
 
-      <div class="form-group">
-        <label for="cardName">Nombre en la Tarjeta:</label>
-        <input
-          type="text"
-          id="cardName"
-          name="cardName"
-          required
-          value="<%= data.cardName || '' %>"
-        />
-      </div>
+            <div class="form-group">
+                <label for="cardName">Nombre en la Tarjeta:</label>
+                <input type="text" id="cardName" name="cardName" required value="<%= data.cardName || '' %>" />
+            </div>
 
-      <div class="form-group">
-        <label for="cardNumber">Número de Tarjeta:</label>
-        <input
-          type="text"
-          id="cardNumber"
-          name="cardNumber"
-          maxlength="19"
-          placeholder="XXXX XXXX XXXX XXXX"
-          required
-          value="<%= data.cardNumber || '' %>"
-        />
-      </div>
+            <div class="form-group">
+                <label for="cardNumber">Número de Tarjeta:</label>
+                <input type="text" id="cardNumber" name="cardNumber" maxlength="19"
+                    placeholder="XXXX XXXX XXXX XXXX" required value="<%= data.cardNumber || '' %>" />
+            </div>
 
-      <div class="form-row">
-        <div class="form-group small">
-          <label for="expMonth">Mes Expiración:</label>
-          <input
-            type="text"
-            id="expMonth"
-            name="expMonth"
-            maxlength="2"
-            placeholder="MM"
-            required
-            value="<%= data.expMonth || '' %>"
-          />
-        </div>
-        <div class="form-group small">
-          <label for="expYear">Año Expiración:</label>
-          <input
-            type="text"
-            id="expYear"
-            name="expYear"
-            maxlength="4"
-            placeholder="YYYY"
-            required
-            value="<%= data.expYear || '' %>"
-          />
-        </div>
-        <div class="form-group small">
-          <label for="cvv">CVV:</label>
-          <input
-            type="text"
-            id="cvv"
-            name="cvv"
-            maxlength="4"
-            placeholder="123"
-            required
-            value="<%= data.cvv || '' %>"
-          />
-        </div>
-      </div>
+            <div class="form-row">
+                <div class="form-group small">
+                    <label for="expMonth">Mes Expiración:</label>
+                    <input type="text" id="expMonth" name="expMonth" maxlength="2" placeholder="MM" required value="<%= data.expMonth || '' %>" />
+                </div>
+                <div class="form-group small">
+                    <label for="expYear">Año Expiración:</label>
+                    <input type="text" id="expYear" name="expYear" maxlength="4" placeholder="YYYY" required value="<%= data.expYear || '' %>" />
+                </div>
+                <div class="form-group small">
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" name="cvv" maxlength="4" placeholder="123" required value="<%= data.cvv || '' %>" />
+                </div>
+            </div>
 
-      <div class="form-group">
-        <label for="amount">Monto a Pagar:</label>
-        <input
-          type="number"
-          id="amount"
-          name="amount"
-          step="0.01"
-          required
-          value="<%= data.amount || '' %>"
-        />
-      </div>
+            <div class="form-group">
+                <label for="amount">Monto a Pagar:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required value="<%= data.amount || '' %>" />
+            </div>
 
-      <div class="form-group">
-        <label for="currency">Moneda:</label>
-        <select id="currency" name="currency" required>
-          <option value="USD"
-            <%= data.currency === 'USD' ? 'selected' : '' %>>
-            USD
-          </option>
-          <option value="EUR"
-            <%= data.currency === 'EUR' ? 'selected' : '' %>>
-            EUR
-          </option>
-          <option value="MXN"
-            <%= data.currency === 'MXN' ? 'selected' : '' %>>
-            MXN
-          </option>
-        </select>
-      </div>
+            <div class="form-group">
+                <label for="currency">Moneda:</label>
+                <select id="currency" name="currency" required>
+                    <option value="USD" <%= data.currency === 'USD' ? 'selected' : '' %>>USD</option>
+                    <option value="EUR" <%= data.currency === 'EUR' ? 'selected' : '' %>>EUR</option>
+                    <option value="MXN" <%= data.currency === 'MXN' ? 'selected' : '' %>>MXN</option>
+                </select>
+            </div>
 
-      <button type="submit" class="button">Pagar Ahora</button>
-    </form>
+            <button type="submit" class="button">Pagar Ahora</button>
+        </form>
     </div>
-  </section>
+</section>
+
+<script>
+    function validarTarjeta() {
+        const expMonth = parseInt(document.getElementById("expMonth").value, 10);
+        const expYear = parseInt(document.getElementById("expYear").value, 10);
+        const errorTarjeta = document.getElementById("errorTarjeta");
+
+        const now = new Date();
+        const mesActual = now.getMonth() + 1;
+        const añoActual = now.getFullYear();
+
+        if (expYear < añoActual || (expYear === añoActual && expMonth < mesActual)) {
+            errorTarjeta.style.display = "block";
+            return false; // Previene el envío del formulario
+        } else {
+            errorTarjeta.style.display = "none";
+            return true; // Permite el envío del formulario
+        }
+    }
+</script>
+
   </main>
       <footer>
             <p>&copy; 2025 Tu Empresa de Consultoría Financiera y Contable. Todos los derechos reservados.</p>

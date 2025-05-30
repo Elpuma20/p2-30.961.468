@@ -17,6 +17,7 @@ header {
     z-index: 100;
 }
 
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -106,6 +107,25 @@ h2 {
     padding-right: 20px;
 }
 
+.success-message {
+    color: #000000;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.return-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2a9d8f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.return-button:hover {
+    background-color: #2a9d8f;
+}
 .hero h1 {
     font-size: 2.5rem;
     color: #000000;
@@ -336,6 +356,7 @@ footer .social-links {
     justify-content: space-between;
     gap: 1rem;
   }
+  
   
   .payment-form .form-group.small {
     flex: 1;
