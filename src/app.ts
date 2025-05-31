@@ -82,5 +82,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 // 📌 Iniciar el servidor
 app.listen(port, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });
