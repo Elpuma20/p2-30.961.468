@@ -6,10 +6,6 @@ import { getCountryFromIp } from "../utils/geolocationService";
 import axios from "axios";
 
 export const submitForm = async (req: Request, res: Response) => {
-
-  if (!req.body || !req.body.nombre || !req.body.correo || !req.body.comentario) {
-  return res.status(400).json({ error: "Faltan datos en la solicitud" });
-  }
   const { nombre, correo, comentario } = req.body;
   const ip: string = req.ip || "0.0.0.0";
   const pais = await getCountryFromIp(ip);
@@ -35,7 +31,7 @@ interface RecaptchaResponse {
 
 export class ContactsController {
   private model = new ContactsModel();
-  private readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "6LeF50krAAAAACbs_fT4YFtbSpCr6AQ7K8GJELF0";
+  private readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "6LeF50krAAAAACbs_fT4YFtbSpCr6AQ7K8GJELF0"; // 🔥 Usa variables de entorno
 
   // Método para validar reCAPTCHA
   private async validateRecaptcha(recaptchaToken: string): Promise<boolean> {
@@ -74,8 +70,6 @@ export class ContactsController {
         return res.status(400).json({ success: false, message: "Faltan campos obligatorios o reCAPTCHA no verificado." });
       }
 
-      console.log("📌 Datos recibidos:", req.body);
-      console.log("📌 Token reCAPTCHA recibido:", req.body.recaptchaToken);
       const isRecaptchaValid = await this.validateRecaptcha(recaptchaToken);
       if (!isRecaptchaValid) {
         return res.status(400).json({ success: false, message: "Fallo en la verificación de reCAPTCHA." });

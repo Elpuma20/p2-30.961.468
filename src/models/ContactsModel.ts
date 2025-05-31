@@ -7,8 +7,8 @@ export interface Contact {
   email: string;
   mensaje: string;
   ip: string;
-  pais: string; // ✅ Se asegura que siempre sea string
-  created_at: Date; // ✅ Se ajusta a Date
+  pais: string; 
+  created_at: Date;
 }
 
 export class ContactsModel {
