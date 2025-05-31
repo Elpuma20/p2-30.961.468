@@ -1,4 +1,3 @@
 dist
 node_modules
-# Ignorar archivos de configuración sensibles
 .env
