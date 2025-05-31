@@ -35,7 +35,7 @@ interface RecaptchaResponse {
 
 export class ContactsController {
   private model = new ContactsModel();
-  private readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "6LeF50krAAAAACbs_fT4YFtbSpCr6AQ7K8GJELF0"; // 🔥 Usa variables de entorno
+  private readonly RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET || "6LeF50krAAAAACbs_fT4YFtbSpCr6AQ7K8GJELF0";
 
   // Método para validar reCAPTCHA
   private async validateRecaptcha(recaptchaToken: string): Promise<boolean> {

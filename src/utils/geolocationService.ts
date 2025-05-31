@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const IPAPI_URL = "https://ipapi.co/8.8.8.8/json/";
+const IPAPI_URL = "https://ipapi.co/${ip}/json/?key=${process.env.IPAPI_ACCESS_KEY}";
 
 export const getCountryFromIp = async (ip: string): Promise<string> => {
   if (!ip) return "IP no disponible";

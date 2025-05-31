@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { PaymentModel, Payment } from '../models/PaymentModel';
+import axios from 'axios';
 
 export class PaymentController {
   private model = new PaymentModel();
+  private FAKE_PAYMENT_API_URL = process.env.FAKE_PAYMENT_API_URL || 'https://fakepayment.onrender.com';
 
   async add(req: Request, res: Response, next: NextFunction) {
     const errors: string[] = [];
@@ -26,8 +28,8 @@ export class PaymentController {
     const now = new Date();
 
     // --- Validación de tarjeta expirada ---
-    if (!expYear || yearNum < now.getFullYear() || 
-        (yearNum === now.getFullYear() && monthNum < now.getMonth() + 1)) {
+    if (!expYear || yearNum < now.getFullYear() ||
+      (yearNum === now.getFullYear() && monthNum < now.getMonth() + 1)) {
       return res.redirect('/expired_card'); // Redirige a página de error
     }
 
@@ -47,13 +49,12 @@ export class PaymentController {
       });
     }
 
-
     try {
       const pago: Payment = {
         service,
         email,
         cardName,
-        cardNumber: cardNumber.replace(/\s+/g, ''), 
+        cardNumber: cardNumber.replace(/\s+/g, ''),
         expMonth,
         expYear,
         cvv,
@@ -64,10 +65,29 @@ export class PaymentController {
 
       await this.model.addPayment(pago);
 
-  
-      return res.redirect('/success');
+      // --- Integración con Fake Payment API ---
+      const paymentData = {
+        cardNumber: pago.cardNumber,
+        expirationDate: `${pago.expMonth}/${pago.expYear}`,
+        cvv: pago.cvv,
+        amount: pago.amount,
+        currency: pago.currency,
+      };
+
+      const response = await axios.post(`${this.FAKE_PAYMENT_API_URL}/pay`, paymentData);
+
+      if (response.data && response.data.transactionId) {
+        return res.redirect(`/success?transactionId=${response.data.transactionId}`);
+      } else {
+        throw new Error('No se recibió un transactionId válido desde la API.');
+      }
+
     } catch (err) {
-      next(err);
+      console.error('Error al procesar pago:', err);
+      return res.status(500).render('payment', {
+        success: false,
+        errors: ['Hubo un problema al procesar el pago. Inténtalo nuevamente.']
+      });
     }
   }
 }
