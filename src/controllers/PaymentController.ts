@@ -8,37 +8,28 @@ export class PaymentController {
 
   async add(req: Request, res: Response, next: NextFunction) {
     const errors: string[] = [];
-    const {
-      service, email, cardName, cardNumber,
-      expMonth, expYear, cvv, amount, currency
-    } = req.body as Record<string, string>;
+    const { service, email, cardName, cardNumber, expMonth, expYear, cvv, amount, currency } = req.body as Record<string, string>;
 
     // --- Validaciones básicas ---
     if (!service) errors.push('Debes seleccionar un servicio.');
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      errors.push('Correo inválido.');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Correo inválido.');
     if (!cardName) errors.push('El nombre de la tarjeta es obligatorio.');
-    if (!cardNumber || !/^\d{13,19}$/.test(cardNumber.replace(/\s+/g, '')))
-      errors.push('Número de tarjeta inválido.');
-    if (!expMonth || Number(expMonth) < 1 || Number(expMonth) > 12)
-      errors.push('Mes de expiración inválido.');
+    if (!cardNumber || !/^\d{13,19}$/.test(cardNumber.replace(/\s+/g, ''))) errors.push('Número de tarjeta inválido.');
+    if (!expMonth || Number(expMonth) < 1 || Number(expMonth) > 12) errors.push('Mes de expiración inválido.');
 
     const yearNum = Number(expYear);
     const monthNum = Number(expMonth);
     const now = new Date();
 
     // --- Validación de tarjeta expirada ---
-    if (!expYear || yearNum < now.getFullYear() ||
-      (yearNum === now.getFullYear() && monthNum < now.getMonth() + 1)) {
+    if (!expYear || yearNum < now.getFullYear() || (yearNum === now.getFullYear() && monthNum < now.getMonth() + 1)) {
       return res.redirect('/expired_card'); // Redirige a página de error
     }
 
     if (!cvv || !/^\d{3,4}$/.test(cvv)) errors.push('CVV inválido.');
-
     const amt = parseFloat(amount);
     if (isNaN(amt) || amt <= 0) errors.push('Monto debe ser mayor que cero.');
-    if (!['USD', 'EUR', 'MXN'].includes(currency))
-      errors.push('Moneda no permitida.');
+    if (!['USD', 'EUR', 'MXN'].includes(currency)) errors.push('Moneda no permitida.');
 
     // Si hubo errores, re-renderizamos el formulario con mensajes
     if (errors.length > 0) {
@@ -74,20 +65,18 @@ export class PaymentController {
         currency: pago.currency,
       };
 
+      console.log('Datos enviados a la API:', paymentData); // 🔍 Revisa qué datos se envían
+
       const response = await axios.post(`${this.FAKE_PAYMENT_API_URL}/pay`, paymentData);
+
+      console.log('Respuesta de la API:', response.data); // 🔍 Verifica la respuesta
 
       if (response.data && response.data.transactionId) {
         return res.redirect(`/success?transactionId=${response.data.transactionId}`);
       } else {
         throw new Error('No se recibió un transactionId válido desde la API.');
       }
-
     } catch (err) {
-      console.error('Error al procesar pago:', err);
-      return res.status(500).render('payment', {
-        success: false,
-        errors: ['Hubo un problema al procesar el pago. Inténtalo nuevamente.']
-      });
     }
   }
 }

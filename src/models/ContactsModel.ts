@@ -46,8 +46,8 @@ export class ContactsModel {
       c.email,
       c.mensaje,
       c.ip,
-      c.pais ?? "Desconocido", // ✅ Se asegura que pais nunca sea null
-      c.created_at.toISOString() // ✅ Se ajusta created_at a formato correcto
+      c.pais ?? "Desconocido",
+      c.created_at.toISOString()
     );
   }
 

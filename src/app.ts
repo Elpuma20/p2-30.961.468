@@ -46,17 +46,18 @@ app.get('/payment', (req: Request, res: Response) => {
 app.post('/payment/add', async (req: Request, res: Response, next: NextFunction) => {
     try {
         await paymentCtrl.add(req, res, next);
-        res.redirect('/payment/pago-realizado');
-    } catch (error) {
+      return res.render('payment', {
+        success: true,
+        errors: [],
+        data: {}
+      });
+        } catch (error) {
         console.error('Error al procesar el pago:', error);
         next(error);
     }
 });
 
-// Nueva ruta para mostrar la página "Pago realizado"
-app.get('/payment/pago-realizado', (req: Request, res: Response) => {
-    res.render('pago_realizado');
-});
+
 
 app.get('/servicio', (req: Request, res: Response) => {
     res.render('servicio', {});
@@ -68,10 +69,6 @@ app.get('/inicio', (req: Request, res: Response) => {
 
 app.get('/beneficios', (req: Request, res: Response) => {
     res.render('beneficios', {});
-});
-
-app.get('/success', (req: Request, res: Response) => {
-    res.render('success', {});
 });
 
 // Iniciar el servidor
