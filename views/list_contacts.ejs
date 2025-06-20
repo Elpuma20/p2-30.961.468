@@ -2,18 +2,21 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Lista de Contactos</title>
+  <title>Contactos Recibidos</title>
   <style>
-    table, th, td { border: 1px solid #999; border-collapse: collapse; padding: 8px; }
-    th { background-color: #f2f2f2; }
-    .success { color: green; font-weight: bold; }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #search { padding: 8px; width: 300px; margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background-color: #f8f8f8; }
+    tr:hover { background-color: #f1f1f1; }
   </style>
   <script>
     function searchContacts() {
       const input = document.getElementById('search').value.toLowerCase();
-      document.querySelectorAll('tbody tr').forEach(row => {
-        const name = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-        const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+      document.querySelectorAll('#contactsBody tr').forEach(row => {
+        const name = row.children[0].textContent.toLowerCase();
+        const email = row.children[1].textContent.toLowerCase();
         row.style.display = name.includes(input) || email.includes(input) ? '' : 'none';
       });
     }
@@ -21,24 +24,29 @@
 </head>
 <body>
 
-  <h1>Lista de Contactos</h1>
+  <h2>Contactos Recibidos</h2>
   <input type="text" id="search" onkeyup="searchContacts()" placeholder="Buscar por nombre o email" />
 
   <table>
     <thead>
       <tr>
-        <th>Nombre</th><th>Email</th><th>Comentario</th><th>IP</th><th>País</th><th>Fecha</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Comentario</th>
+        <th>IP</th>
+        <th>País</th>
+        <th>Fecha</th>
       </tr>
     </thead>
-    <tbody>
-      <% contactos.forEach(c => { %>  <!-- 🔥 Asegúrate de que coincide con el nombre pasado en res.render() -->
+    <tbody id="contactsBody">
+      <% contactos.forEach(c => { %>
         <tr>
           <td><%= c.nombre %></td>
           <td><%= c.email %></td>
           <td><%= c.mensaje %></td>
           <td><%= c.ip %></td>
           <td><%= c.pais %></td>
-          <td><%= c.fecha %></td>
+          <td><%= c.created_at.toLocaleString() %></td>
         </tr>
       <% }) %>
     </tbody>

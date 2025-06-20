@@ -17,6 +17,77 @@ header {
     z-index: 100;
 }
 
+/* Contenedor principal */
+.login-container {
+    background-color: #ffffff;
+    padding: 40px 35px;
+    border-radius: 10px;
+    width: 360px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Título */
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* Inputs */
+.login-container input[type="email"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Botón principal */
+.login-container button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Botón Google */
+.google-btn {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #444;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.google-btn:hover {
+    background-color: #f5f5f5;
+}
+
+.google-btn img {
+    width: 20px;
+    margin-right: 10px;
+}
+
 
 nav {
     display: flex;
@@ -157,6 +228,113 @@ h2 {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+}
+
+.boton-header {
+  background-color: #2a9d8f;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton-header:hover {
+  background-color: #2a9d8f;
+}
+
+.google-login {
+    margin-top: 20px;
+}
+
+.google-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    background-color: #2a9d8f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.google-button img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.btn-iniciar-sesion {
+  background-color: #2a9d8f;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-iniciar-sesion:hover {
+  background-color: #2a9d8f;
+}
+
+.google-button:hover {
+    background-color: #2a9d8f;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #2a9d8f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #2a9d8f;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+form {
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 .button:hover {

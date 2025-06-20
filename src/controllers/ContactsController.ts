@@ -106,10 +106,11 @@ export class ContactsController {
         created_at: new Date(contacto.created_at),
       }));
 
-      return res.render("admin_contacts", { contactos });
+      return res.render("list_contacts", { contactos });
     } catch (err) {
       console.error("❌ Error obteniendo los contactos:", err);
       return next(err);
     }
   }
+  
 }

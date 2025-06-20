@@ -15,9 +15,9 @@
 
     gtag('config', 'G-DYCJNXW8L2');
     </script>
-<head>
-    <body>
-        <header>
+</head>
+<body>
+    <header>
             <nav class="navbar">
                 
                 <input type="checkbox" id="menu-toggle">
@@ -41,25 +41,26 @@
                 </div>
             </nav>
         </header>
-    
-        <main>
-            <section id="hero" class="hero">
-                <div class="hero-content">
-                    <h1>BIENVENIDO A PYMEPRO</h1>
-                    <h1>Impulsa el Éxito de tu Pequeña Empresa con Nuestra Consultoría Financiera y Contable</h1>
-                    <p>Obtén la claridad financiera y el soporte contable que tu negocio necesita para crecer de forma sostenible.</p>
-                    <a href="/contacto" class="boton-header">¡Contáctanos!</a>
-                    <a href="/login" class="boton-header btn-admin-login">Iniciar sesión como admin</a>
-                </div>
-                <div class="hero-image">
-                    <img src="https://spasesores.com/wp-content/uploads/2021/10/SP-ASESORES-Consultoria-Financiera-e1634195217140.png" alt="Consultoría Financiera">
-                </div>
-            </section>
-        </main>
-    
-        <footer>
-            <p>&copy; 2025 Tu Empresa de Consultoría Financiera y Contable. Todos los derechos reservados.</p>
-           
-        </footer>
-    </body>
+        <center>
+     <div class="login-container">
+        <h1>Login de Administración</h1>
+        <form action="/auth/login" method="post">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" placeholder="Usuario" required/>
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" placeholder="Contraseña" required/>
+            <button type="submit" class="btn-iniciar-sesion">INICIAR SESIÓN</button>
+        </form>
+        <div class="google-login">
+            <hr>
+        <a href="/auth/google">
+        <button>INICIAR SESIÓN CON GOOGLE</button>
+        </a>
+        </div>
+    </div>
+</center>
+    <footer>
+        <p>&copy; 2025 Tu Empresa de Consultoría Financiera y Contable. Todos los derechos reservados.</p>
+    </footer>
+</body>
 </html>

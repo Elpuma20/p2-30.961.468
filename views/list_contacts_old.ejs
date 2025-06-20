@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Contactos</title>
+  <style>
+    table, th, td { border: 1px solid #999; border-collapse: collapse; padding: 8px; }
+    th { background-color: #f2f2f2; }
+    .success { color: green; font-weight: bold; }
+  </style>
+  <script>
+    function searchContacts() {
+      const input = document.getElementById('search').value.toLowerCase();
+      document.querySelectorAll('tbody tr').forEach(row => {
+        const name = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        row.style.display = name.includes(input) || email.includes(input) ? '' : 'none';
+      });
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Lista de Contactos</h1>
+  <input type="text" id="search" onkeyup="searchContacts()" placeholder="Buscar por nombre o email" />
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th><th>Email</th><th>Comentario</th><th>IP</th><th>País</th><th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% contactos.forEach(c => { %>
+        <tr>
+          <td><%= c.nombre %></td>
+          <td><%= c.email %></td>
+          <td><%= c.mensaje %></td>
+          <td><%= c.ip %></td>
+          <td><%= c.pais %></td>
+          <td><%= c.fecha %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+</body>
+</html>

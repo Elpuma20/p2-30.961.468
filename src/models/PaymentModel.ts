@@ -16,6 +16,9 @@ export interface Payment {
 }
 
 export class PaymentModel {
+  static getAll() {
+    throw new Error("Method not implemented.");
+  }
   private dbPromise: Promise<Database<sqlite3.Database, sqlite3.Statement>>;
 
   constructor() {

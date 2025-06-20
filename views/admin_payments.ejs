@@ -1,0 +1,32 @@
+<h2>Pagos Realizados</h2>
+<input type="text" id="dateFilter" placeholder="Buscar por fecha (YYYY-MM-DD)">
+<select id="serviceFilter">
+  <option value="">Todos los servicios</option>
+  <option value="Servicio A">Servicio A</option>
+  <option value="Servicio B">Servicio B</option>
+</select>
+<select id="statusFilter">
+  <option value="">Todos los estados</option>
+  <option value="Pagado">Pagado</option>
+  <option value="Fallido">Fallido</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>Servicio</th><th>Monto</th><th>Fecha</th><th>Estado</th>
+    </tr>
+  </thead>
+  <tbody id="paymentsBody">
+    <% payments.forEach(p => { %>
+      <tr>
+        <td><%= p.service %></td>
+        <td><%= p.amount %></td>
+        <td><%= p.date %></td>
+        <td><%= p.status %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<script src="/js/filterPayments.js"></script>

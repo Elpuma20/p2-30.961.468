@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administración</title>
+</head>
+<body>
+  <h2>Bienvenido, <%= user?.displayName || user?.email || 'Administrador' %> 👋</h2>
+  <ul>
+    <li><a href="/admin/contacts">📋 Ver Contactos</a></li>
+    <li><a href="/admin/payments">💳 Ver Pagos</a></li>
+  </ul>
+</body>
+</html>

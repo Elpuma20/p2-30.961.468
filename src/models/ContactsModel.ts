@@ -12,6 +12,10 @@ export interface Contact {
 }
 
 export class ContactsModel {
+  static getAll: any;
+  static getAllContacts() {
+    throw new Error("Method not implemented.");
+  }
   private dbPromise: Promise<Database<sqlite3.Database, sqlite3.Statement>>;
 
   constructor() {

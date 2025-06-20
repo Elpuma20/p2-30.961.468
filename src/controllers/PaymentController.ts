@@ -6,6 +6,24 @@ export class PaymentController {
   private model = new PaymentModel();
   private FAKE_PAYMENT_API_URL = process.env.FAKE_PAYMENT_API_URL || 'https://fakepayment.onrender.com';
 
+  // ⚡ Ruta protegida: /admin/payments
+  async index(req: Request, res: Response, next: NextFunction) {
+    try {
+      const lista = await this.model.getAllPayments();
+
+      // Convertir fechas a objetos Date si vienen como strings
+      const pagos = lista.map((pago) => ({
+        ...pago,
+        created_at: new Date(pago.created_at),
+      }));
+
+      return res.render('list_payments', { pagos });
+    } catch (err) {
+      console.error("❌ Error obteniendo los pagos:", err);
+      return next(err);
+    }
+  }
+
   async add(req: Request, res: Response, next: NextFunction) {
     const errors: string[] = [];
     const { service, email, cardName, cardNumber, expMonth, expYear, cvv, amount, currency } = req.body as Record<string, string>;
@@ -78,5 +96,7 @@ export class PaymentController {
       }
     } catch (err) {
     }
+    
   }
+  
 }
