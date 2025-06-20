@@ -8,7 +8,7 @@ import { isAuthenticated } from './middlewares/authMiddleware';
 import { ContactsController } from './controllers/ContactsController';
 import { PaymentController } from './controllers/PaymentController';
 import authRoutes from './routes/authRoutes';
-import './utils/googleAuth';
+import './utils/googleAuth'; // <-- Esto debe ir antes de usar authRoutes
 import { initUserTable } from './models/UserModel';
 initUserTable();
 
@@ -128,10 +128,11 @@ passport.deserializeUser(async (id, done) => {
 
 console.log('🔍 Vistas configuradas en:', path.join(__dirname, '../views'));
 
-// Añadir rutas de autenticación con Google OAuth
-app.use('/', authRoutes);
-
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en ${port}`);
+});
+
+app.get('/login', (req, res) => {
+  res.redirect('/auth/login');
 });
