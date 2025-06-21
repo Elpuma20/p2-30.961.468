@@ -9,10 +9,15 @@ import { ContactsController } from './controllers/ContactsController';
 import { PaymentController } from './controllers/PaymentController';
 import { sessionTimeout } from './middlewares/sessionTimeout';
 import authRoutes from './routes/authRoutes';
-import './utils/googleAuth'; 
+import './utils/googleAuth';
 import { initUserTable } from './models/UserModel';
+import { open } from 'sqlite';
+import sqlite3 from 'sqlite3';
+import dotenv from 'dotenv';
 
-// Extiende la interfaz SessionData para incluir 'visitas'
+dotenv.config();
+
+// Extender sesión para propiedad personalizada
 declare module 'express-session' {
   interface SessionData {
     visitas?: number;
@@ -22,25 +27,10 @@ declare module 'express-session' {
 initUserTable();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Configurar sesiones para Passport
-app.use(session({
-    secret: 'secretKey',
-    resave: false,
-    saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Servir archivos estáticos desde la carpeta 'public'
-app.use(express.static(path.join(__dirname, '../public')));
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views'));
-
+// Configuración de sesión
 app.set('trust proxy', 1);
-
 app.use(session({
   secret: process.env.SESSION_SECRET || 'una_clave_segura',
   resave: false,
@@ -48,34 +38,52 @@ app.use(session({
   rolling: true,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', 
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
-    maxAge: 15 * 60 * 1000
+    maxAge: 15 * 60 * 1000 // 15 minutos
   }
 }));
 
+// Middleware de tiempo de sesión
 app.use(sessionTimeout);
 
-// Body parser
+// Configuraciones de Express
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-  secret: 'clave-super-secreta',
-  resave: false,
-  saveUninitialized: false
-}));
 
+// Configuración de Passport
+app.use(passport.initialize());
+app.use(passport.session());
+setupLocalStrategy(passport);
+
+// Serialización de usuario
+passport.serializeUser((user: any, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  const db = await open({ filename: './data/users.sqlite', driver: sqlite3.Database });
+  const user = await db.get(`SELECT * FROM users WHERE id = ?`, id);
+  done(null, user);
+});
+
+// Configuración de vistas
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
+
+console.log('🔍 Vistas configuradas en:', path.join(__dirname, '../views'));
+
+// Rutas de autenticación
 app.use('/auth', authRoutes);
 
-app.use(express.urlencoded({ extended: true }));
+// Rutas principales
+const contactsCtrl = new ContactsController();
+const paymentCtrl = new PaymentController();
 
-export default app;
-
-// Implementar la ruta para la página inicial
 app.get('/', (req: Request, res: Response) => {
-    res.render('index', {});
+  res.render('index', {});
 });
 
 app.get('/check', (req, res) => {
@@ -83,15 +91,12 @@ app.get('/check', (req, res) => {
   res.send(`Visitas en esta sesión: ${req.session.visitas}`);
 });
 
-const contactsCtrl = new ContactsController();
-const paymentCtrl = new PaymentController();
-
 app.get('/contacto', (req: Request, res: Response) => {
-    res.render('contacto', { success: false });
+  res.render('contacto', { success: false });
 });
 
 app.post('/enviar-contacto', (req: Request, res: Response, next: NextFunction) => {
-    contactsCtrl.add(req, res, next).catch(next);
+  contactsCtrl.add(req, res, next).catch(next);
 });
 
 app.get('/admin/contacts', isAuthenticated, (req, res, next) => {
@@ -106,64 +111,37 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
   res.render('dashboard', { user: req.user });
 });
 
-// Mostrar formulario de pago
 app.get('/payment', (req: Request, res: Response) => {
-    res.render('payment', { success: false, errors: [], data: {} });
+  res.render('payment', { success: false, errors: [], data: {} });
 });
 
-// Recibir el POST del pago y redirigir a "Pago realizado"
 app.post('/payment/add', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        await paymentCtrl.add(req, res, next);
-        return res.render('payment', {
-            success: true,
-            errors: [],
-            data: {}
-        });
-    } catch (error) {
-        console.error('Error al procesar el pago:', error);
-        next(error);
-    }
+  try {
+    await paymentCtrl.add(req, res, next);
+    res.render('payment', { success: true, errors: [], data: {} });
+  } catch (error) {
+    console.error('Error al procesar el pago:', error);
+    next(error);
+  }
 });
 
 app.get('/servicio', (req: Request, res: Response) => {
-    res.render('servicio', {});
+  res.render('servicio', {});
 });
 
 app.get('/inicio', (req: Request, res: Response) => {
-    res.render('inicio', {});
+  res.render('inicio', {});
 });
 
 app.get('/beneficios', (req: Request, res: Response) => {
-    res.render('beneficios', {});
-});
-
-setupLocalStrategy(passport);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// serialización
-passport.serializeUser((user: any, done) => {
-  done(null, user.id);
-});
-
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
-
-passport.deserializeUser(async (id, done) => {
-  const db = await open({ filename: './data/users.sqlite', driver: sqlite3.Database });
-  const user = await db.get(`SELECT * FROM users WHERE id = ?`, id);
-  done(null, user);
-});
-
-console.log('🔍 Vistas configuradas en:', path.join(__dirname, '../views'));
-
-// Iniciar el servidor
-app.listen(port, () => {
-    console.log(`Servidor corriendo en ${port}`);
+  res.render('beneficios', {});
 });
 
 app.get('/login', (req, res) => {
   res.redirect('/auth/login');
+});
+
+// Iniciar servidor
+app.listen(port, () => {
+  console.log(`🚀 Servidor corriendo en puerto ${port}`);
 });
