@@ -4,12 +4,75 @@
   <meta charset="UTF-8" />
   <title>Contactos Recibidos</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    #search { padding: 8px; width: 300px; margin-bottom: 10px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    th { background-color: #f8f8f8; }
-    tr:hover { background-color: #f1f1f1; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    #search {
+      padding: 8px;
+      width: 300px;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f8f8f8;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Estilos nuevos para título y botón */
+    .header-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-wrapper h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .btn-secondary {
+      background-color: #2a9d8f;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #2a9d8f;
+    }
+
+    @media (max-width: 576px) {
+      .header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
   </style>
   <script>
     function searchContacts() {
@@ -24,7 +87,11 @@
 </head>
 <body>
 
-  <h2>Contactos Recibidos</h2>
+  <div class="header-wrapper">
+    <h2>Contactos Recibidos</h2>
+    <a href="/dashboard" class="btn-secondary">← Volver</a>
+  </div>
+
   <input type="text" id="search" onkeyup="searchContacts()" placeholder="Buscar por nombre o email" />
 
   <table>

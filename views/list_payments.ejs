@@ -4,15 +4,106 @@
   <meta charset="UTF-8" />
   <title>Pagos Recibidos</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 10px; border: 1px solid #ccc; }
-    th { background-color: #f8f8f8; }
-    tr:hover { background-color: #f1f1f1; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #f8f8f8;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .header-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px; /* Espacio entre el título y el botón */
+      margin-bottom: 1rem;
+    }
+
+    .header-wrapper h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+
+    input {
+      margin: 5px 0;
+      padding: 6px;
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 576px) {
+  .header-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+.header-wrapper h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-secondary {
+  background-color: #2a9d8f;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #2a9d8f;
+}
+
   </style>
 </head>
 <body>
-  <h2>Pagos Recibidos</h2>
+  <div class="header-wrapper">
+    <h2>Pagos Recibidos</h2>
+    <a href="/dashboard" class="btn-secondary">← Volver</a>
+  </div>
+
   <div>
     <input id="nameFilter" placeholder="Filtrar por nombre">
     <input id="emailFilter" placeholder="Filtrar por email">
@@ -20,6 +111,7 @@
     <input id="dateFilter" placeholder="Filtrar por fecha">
     <input id="countryFilter" placeholder="Filtrar por servicio">
   </div>
+
   <table>
     <thead>
       <tr>
@@ -42,6 +134,7 @@
       <% }) %>
     </tbody>
   </table>
+
   <script src="/js/filterPayments.js"></script>
 </body>
 </html>
