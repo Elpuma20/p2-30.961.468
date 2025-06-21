@@ -13,6 +13,13 @@
 </head>
 <body>
   <h2>Pagos Recibidos</h2>
+  <div>
+    <input id="nameFilter" placeholder="Filtrar por nombre">
+    <input id="emailFilter" placeholder="Filtrar por email">
+    <input id="amountFilter" placeholder="Filtrar por monto">
+    <input id="dateFilter" placeholder="Filtrar por fecha">
+    <input id="countryFilter" placeholder="Filtrar por servicio">
+  </div>
   <table>
     <thead>
       <tr>
@@ -20,20 +27,21 @@
         <th>Email</th>
         <th>Monto</th>
         <th>Fecha</th>
-        <th>País</th>
+        <th>Servicio</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="paymentsBody">
       <% pagos.forEach(p => { %>
         <tr>
-          <td><%= p.nombre %></td>
+          <td><%= p.cardName %></td>
           <td><%= p.email %></td>
-          <td><%= p.monto %></td>
-          <td><%= p.fecha %></td>
-          <td><%= p.pais %></td>
+          <td><%= p.amount %></td>
+          <td><%= p.created_at %></td>
+          <td><%= p.service %></td>
         </tr>
       <% }) %>
     </tbody>
   </table>
+  <script src="/js/filterPayments.js"></script>
 </body>
 </html>
