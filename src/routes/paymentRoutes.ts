@@ -2,9 +2,14 @@ import express from "express";
 import { PaymentController } from "../controllers/PaymentController";
 import { isAuthenticated } from "../middlewares/authMiddleware";
 import { PaymentModel } from "../models/PaymentModel";
+import { guardarPago, listarPagos } from '../controllers/PaymentController';
+
 
 const router = express.Router();
 const paymentCtrl = new PaymentController();
+
+router.post('/pagos', guardarPago);
+router.get('/pagos', listarPagos);
 
 router.get("/", (req, res) => res.render("payment", { success: false, errors: [], data: {} }));
 

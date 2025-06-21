@@ -7,9 +7,18 @@ import setupLocalStrategy from './passport/localStrategy';
 import { isAuthenticated } from './middlewares/authMiddleware';
 import { ContactsController } from './controllers/ContactsController';
 import { PaymentController } from './controllers/PaymentController';
+import { sessionTimeout } from './middlewares/sessionTimeout';
 import authRoutes from './routes/authRoutes';
-import './utils/googleAuth';
+import './utils/googleAuth'; 
 import { initUserTable } from './models/UserModel';
+
+// Extiende la interfaz SessionData para incluir 'visitas'
+declare module 'express-session' {
+  interface SessionData {
+    visitas?: number;
+  }
+}
+
 initUserTable();
 
 const app = express();
@@ -29,6 +38,23 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
+
+app.set('trust proxy', 1);
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'una_clave_segura',
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', 
+    sameSite: 'strict',
+    maxAge: 15 * 60 * 1000
+  }
+}));
+
+app.use(sessionTimeout);
 
 // Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,6 +76,11 @@ export default app;
 // Implementar la ruta para la página inicial
 app.get('/', (req: Request, res: Response) => {
     res.render('index', {});
+});
+
+app.get('/check', (req, res) => {
+  req.session.visitas = (req.session.visitas || 0) + 1;
+  res.send(`Visitas en esta sesión: ${req.session.visitas}`);
 });
 
 const contactsCtrl = new ContactsController();
@@ -128,10 +159,11 @@ passport.deserializeUser(async (id, done) => {
 
 console.log('🔍 Vistas configuradas en:', path.join(__dirname, '../views'));
 
-// Añadir rutas de autenticación con Google OAuth
-app.use('/', authRoutes);
-
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en ${port}`);
+});
+
+app.get('/login', (req, res) => {
+  res.redirect('/auth/login');
 });

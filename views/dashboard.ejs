@@ -1,14 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel de Administración</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PYMEPRO</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DYCJNXW8L2"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-DYCJNXW8L2');
+    </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1115&auto=format&fit=crop') center/cover no-repeat;
+      min-height: 100vh;
+      margin-left: 240px; /* espacio para el menú lateral */
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .sidebar-header {
+      color: white;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    .btn-admin {
+      width: 100%;
+      text-align: left;
+      background-color: #2a9d8f;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-admin:hover {
+      background-color: #21867a;
+    }
+
+    form {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <h2>Bienvenido, <%= user?.displayName || user?.email || 'Administrador' %> 👋</h2>
-  <ul>
-    <li><a href="/admin/contacts">📋 Ver Contactos</a></li>
-    <li><a href="/admin/payments">💳 Ver Pagos</a></li>
-  </ul>
+  <div class="sidebar">
+    <h2 class="sidebar-header">
+      Bienvenido, <%= user?.displayName || user?.email || 'Administrador' %>
+    </h2>
+    <a href="/admin/contacts" class="btn-admin">📋 Ver Contactos</a>
+    <a href="/admin/payments" class="btn-admin">💳 Ver Pagos</a>
+    <a href="/inicio" class="btn-admin">🔒 Cerrar Sesión</a></a>
+  </div>
 </body>
 </html>

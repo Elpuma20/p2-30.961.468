@@ -62,3 +62,35 @@ export class PaymentModel {
     return db.all<Payment[]>(`SELECT * FROM payments ORDER BY created_at DESC`);
   }
 }
+
+const db = new sqlite3.Database('./data/payments.sqlite');
+
+export function crearTablaPagos() {
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS pagos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nombre TEXT,
+      email TEXT,
+      monto REAL,
+      fecha TEXT,
+      pais TEXT
+    )
+  `).run();
+}
+
+export interface Pago {
+  nombre: string;
+  email: string;
+  monto: number;
+  fecha?: string;
+  pais: string;
+}
+
+export function registrarPago(pago: Pago): void {
+  const stmt = db.prepare('INSERT INTO pagos (nombre, email, monto, fecha, pais) VALUES (?, ?, ?, ?, ?)');
+  stmt.run(pago.nombre, pago.email, pago.monto, new Date().toISOString(), pago.pais);
+}
+
+export function obtenerPagos() {
+  return db.prepare('SELECT * FROM pagos ORDER BY fecha DESC').all();
+}

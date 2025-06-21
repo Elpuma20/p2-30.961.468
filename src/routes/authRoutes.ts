@@ -7,12 +7,12 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/auth/google', passport.authenticate('google', {
+router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
 
-router.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+router.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/auth/login' }),
     (req, res) => {
         res.redirect('/dashboard');
     }
@@ -25,7 +25,7 @@ router.get('/logout', (req, res) => {
     });
 });
 
-router.post('/auth/login', (req, res, next) => {
+router.post('/login', (req, res, next) => {
   console.log('✅ Se recibió el formulario con:');
   console.log(req.body); // para ver si llegan username y password
 

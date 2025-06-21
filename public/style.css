@@ -17,7 +17,6 @@ header {
     z-index: 100;
 }
 
-/* Contenedor principal */
 .login-container {
     background-color: #ffffff;
     padding: 40px 35px;
@@ -27,13 +26,11 @@ header {
     text-align: center;
 }
 
-/* Título */
 .login-container h2 {
     margin-bottom: 20px;
     color: #222;
 }
 
-/* Inputs */
 .login-container input[type="email"],
 .login-container input[type="password"] {
     width: 100%;
@@ -44,9 +41,8 @@ header {
     font-size: 14px;
 }
 
-/* Botón principal */
 .login-container button[type="submit"] {
-    background-color: #007bff;
+    background-color: #2a9d8f;
     color: white;
     border: none;
     padding: 12px;
@@ -59,10 +55,9 @@ header {
 }
 
 .login-container button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #2a9d8f;
 }
 
-/* Botón Google */
 .google-btn {
     margin-top: 16px;
     display: flex;

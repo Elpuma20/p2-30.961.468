@@ -100,3 +100,64 @@ export class PaymentController {
   }
   
 }
+
+interface GuardarPagoRequestBody {
+  [key: string]: any;
+}
+
+interface GuardarPagoResponse {
+  mensaje: string;
+}
+
+export const guardarPago = (req: Request<unknown, GuardarPagoResponse, GuardarPagoRequestBody>, res: Response<GuardarPagoResponse>) => {
+  try {
+    registrarPago(req.body);
+    res.status(201).json({ mensaje: 'Pago registrado correctamente' });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al registrar el pago' });
+  }
+};
+
+interface ListarPagosResponse {
+  // Define the structure of a payment if possible, otherwise use any[]
+  pagos: Payment[];
+}
+
+export const listarPagos = (req: Request, res: Response<Payment[] | { mensaje: string }>) => {
+  try {
+    const pagos: Payment[] = obtenerPagos();
+    res.json(pagos);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener los pagos' });
+  }
+};
+
+function registrarPago(body: GuardarPagoRequestBody) {
+  // Suponiendo que PaymentModel se usa para persistir pagos
+  const paymentModel = new PaymentModel();
+  const pago: Payment = {
+    service: body.service,
+    email: body.email,
+    cardName: body.cardName,
+    cardNumber: body.cardNumber,
+    expMonth: body.expMonth,
+    expYear: body.expYear,
+    cvv: body.cvv,
+    amount: parseFloat(body.amount),
+    currency: body.currency,
+    created_at: new Date().toISOString()
+  };
+  paymentModel.addPayment(pago);
+}
+
+function obtenerPagos(): Payment[] {
+  // Suponiendo que PaymentModel se usa para obtener pagos
+  const paymentModel = new PaymentModel();
+  // getAllPayments puede ser asíncrono, pero aquí lo usamos de forma síncrona para el ejemplo
+  // Si es asíncrono, deberías ajustar la función y el controlador para usar async/await
+  // Aquí se asume que getAllPayments es síncrono, si no, cambia la lógica a async
+  // return paymentModel.getAllPayments(); // Si es síncrono
+  // Si getAllPayments es asíncrono:
+  throw new Error('obtenerPagos debe implementarse como función asíncrona si getAllPayments es asíncrono.');
+}
+

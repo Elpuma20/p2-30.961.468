@@ -27,3 +27,8 @@ npm run dev
 Este proyecto está desplegado en Render. 
 Enlace: https://p2-30-961-468.onrender.com
 
+# Area protegida
+
+Username: admin
+Password: admin123
+
