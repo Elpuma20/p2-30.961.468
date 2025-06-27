@@ -77,11 +77,11 @@
 <body>
   <div class="sidebar">
     <h2 class="sidebar-header">
-      Bienvenido, <%= user?.displayName || user?.email || 'Administrador' %>
+      <%= __('sidebar_welcome') %> <%= user?.displayName || user?.email || __('sidebar_admin') %>
     </h2>
-    <a href="/admin/contacts" class="btn-admin">📋 Ver Contactos</a>
-    <a href="/admin/payments" class="btn-admin">💳 Ver Pagos</a>
-    <a href="/inicio" class="btn-admin">🔒 Cerrar Sesión</a></a>
+    <a href="/admin/contacts" class="btn-admin">📋 <%= __('sidebar_contacts') %></a>
+    <a href="/admin/payments" class="btn-admin">💳 <%= __('sidebar_payments') %></a>
+    <a href="/inicio" class="btn-admin">🔒 <%= __('sidebar_logout') %></a>
   </div>
 </body>
 </html>

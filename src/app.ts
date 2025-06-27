@@ -3,33 +3,58 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import passport from 'passport';
+import i18n from 'i18n';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import { open } from 'sqlite';
+import sqlite3 from 'sqlite3';
+
 import setupLocalStrategy from './passport/localStrategy';
 import { isAuthenticated } from './middlewares/authMiddleware';
 import { ContactsController } from './controllers/ContactsController';
 import { PaymentController } from './controllers/PaymentController';
 import { sessionTimeout } from './middlewares/sessionTimeout';
 import authRoutes from './routes/authRoutes';
-import './utils/googleAuth';
 import { initUserTable } from './models/UserModel';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
-import dotenv from 'dotenv';
+import './utils/googleAuth';
 
 dotenv.config();
 
-// Extender sesión para propiedad personalizada
-declare module 'express-session' {
-  interface SessionData {
-    visitas?: number;
-  }
-}
-
-initUserTable();
-
 const app = express();
-const port = process.env.PORT || 3000;
 
-// Configuración de sesión
+// 🧠 Configuración de i18n
+i18n.configure({
+  locales: ['en', 'es'],
+  defaultLocale: 'es',
+  directory: path.join(__dirname, '..', 'locales'),
+  cookie: 'lang',
+  queryParameter: 'lang',
+  autoReload: true,
+  syncFiles: true
+});
+
+// 🧱 Middleware base
+app.use(cookieParser());
+app.use(i18n.init);
+
+// 🌐 Middleware para mantener idioma en navegación
+app.use((req, res, next) => {
+  const langRaw = req.query.lang;
+  const lang = Array.isArray(langRaw) ? langRaw[0] : langRaw;
+
+  if (typeof lang === 'string' && ['es', 'en'].includes(lang)) {
+    res.cookie('lang', lang, { maxAge: 1000 * 60 * 60 * 24 * 7 }); // 7 días
+    req.setLocale(lang);
+  } else if (req.cookies.lang) {
+    req.setLocale(req.cookies.lang);
+  }
+
+  res.locals.locale = req.getLocale();
+  res.locals.__ = res.__;
+  next();
+});
+
+// 🔐 Configuración de sesión
 app.set('trust proxy', 1);
 app.use(session({
   secret: process.env.SESSION_SECRET || 'una_clave_segura',
@@ -44,41 +69,48 @@ app.use(session({
   }
 }));
 
-// Middleware de tiempo de sesión
-app.use(sessionTimeout);
+app.set('trust proxy', 1);
 
-// Configuraciones de Express
+// 🛠️ Extiende interfaz para sesión personalizada
+declare module 'express-session' {
+  interface SessionData {
+    visitas?: number;
+    language?: string;
+  }
+}
+
+// 🗃️ Base de datos
+initUserTable();
+
+// 🧠 Middlewares funcionales
+app.use(sessionTimeout);
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configuración de Passport
+// 🔑 Passport
 app.use(passport.initialize());
 app.use(passport.session());
 setupLocalStrategy(passport);
 
-// Serialización de usuario
 passport.serializeUser((user: any, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   const db = await open({ filename: './data/users.sqlite', driver: sqlite3.Database });
-  const user = await db.get(`SELECT * FROM users WHERE id = ?`, id);
+  const user = await db.get('SELECT * FROM users WHERE id = ?', id);
   done(null, user);
 });
 
-// Configuración de vistas
+// 🎨 Vistas EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
-
 console.log('🔍 Vistas configuradas en:', path.join(__dirname, '../views'));
 
-// Rutas de autenticación
+// 🌍 Rutas principales
 app.use('/auth', authRoutes);
-
-// Rutas principales
 const contactsCtrl = new ContactsController();
 const paymentCtrl = new PaymentController();
 
@@ -115,6 +147,16 @@ app.get('/payment', (req: Request, res: Response) => {
   res.render('payment', { success: false, errors: [], data: {} });
 });
 
+app.get('/setlang/:lang', (req, res) => {
+  const lang = req.params.lang;
+  if (['es', 'en'].includes(lang)) {
+    res.cookie('lang', lang, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+    res.send(`Idioma "${lang}" guardado en cookie`);
+  } else {
+    res.send('Idioma no válido');
+  }
+});
+
 app.post('/payment/add', async (req: Request, res: Response, next: NextFunction) => {
   try {
     await paymentCtrl.add(req, res, next);
@@ -141,7 +183,8 @@ app.get('/login', (req, res) => {
   res.redirect('/auth/login');
 });
 
-// Iniciar servidor
+// 🚀 Iniciar servidor
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`🚀 Servidor corriendo en puerto ${port}`);
 });

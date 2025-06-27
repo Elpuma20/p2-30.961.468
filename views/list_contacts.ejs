@@ -86,23 +86,22 @@
   </script>
 </head>
 <body>
-
   <div class="header-wrapper">
-    <h2>Contactos Recibidos</h2>
-    <a href="/dashboard" class="btn-secondary">← Volver</a>
+    <h2><%= __('contacts_title') %></h2>
+    <a href="/dashboard" class="btn-secondary">← <%= __('back') %></a>
   </div>
 
-  <input type="text" id="search" onkeyup="searchContacts()" placeholder="Buscar por nombre o email" />
+  <input type="text" id="search" onkeyup="searchContacts()" placeholder="<%= __('contacts_search_placeholder') %>" />
 
   <table>
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Comentario</th>
-        <th>IP</th>
-        <th>País</th>
-        <th>Fecha</th>
+        <th><%= __('table_name') %></th>
+        <th><%= __('table_email') %></th>
+        <th><%= __('table_comment') %></th>
+        <th><%= __('table_ip') %></th>
+        <th><%= __('table_country') %></th>
+        <th><%= __('table_date') %></th>
       </tr>
     </thead>
     <tbody id="contactsBody">
@@ -118,6 +117,5 @@
       <% }) %>
     </tbody>
   </table>
-
 </body>
 </html>

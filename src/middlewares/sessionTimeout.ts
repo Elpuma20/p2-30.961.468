@@ -30,3 +30,4 @@ export function sessionTimeout(req: Request, res: Response, next: NextFunction) 
     next();
   }
 }
+

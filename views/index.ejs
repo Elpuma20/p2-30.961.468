@@ -38,6 +38,12 @@
 <head>
     <body>
         <header>
+            <form method="get" action="" class="language-form">
+            <select name="lang" onchange="this.form.submit()">
+            <option value="es" <%= locale === 'es' ? 'selected' : '' %>>Es</option>
+            <option value="en" <%= locale === 'en' ? 'selected' : '' %>>En</option>
+            </select>
+            </form>
             <nav class="navbar">
                 
                 <input type="checkbox" id="menu-toggle">
@@ -47,11 +53,11 @@
                     <div class="line"></div>
                 </label>
                 <ul class="nav-links">
-                    <li><a href="/inicio">Inicio</a></li>
-                    <li><a href="/servicio">Nuestro Servicio</a></li>
-                    <li><a href="/beneficios">Beneficios</a></li>
-                    <li><a href="/contacto">Contacto</a></li>
-                    <li><a href="/payment">Pagar servicios</a></li>
+                <li><a href="/inicio"><%= __('nav_inicio') %></a></li>
+                <li><a href="/servicio"><%= __('nav_servicio') %></a></li>
+                <li><a href="/beneficios"><%= __('nav_beneficios') %></a></li>
+                <li><a href="/contacto"><%= __('nav_contacto') %></a></li>
+                <li><a href="/payment"><%= __('nav_pago') %></a></li>
                 </ul>
                 <div class="social-links">
                         <a href=""><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png" alt="LinkedIn"></a>
@@ -63,23 +69,22 @@
         </header>
     
         <main>
-            <section id="hero" class="hero">
-                <div class="hero-content">
-                    <h1>BIENVENIDO A PYMEPRO</h1>
-                    <h1>Impulsa el Éxito de tu Pequeña Empresa con Nuestra Consultoría Financiera y Contable</h1>
-                    <p>Obtén la claridad financiera y el soporte contable que tu negocio necesita para crecer de forma sostenible.</p>
-                    <a href="/contacto" class="boton-header">¡Contáctanos!</a>
-                    <a href="/login" class="boton-header btn-admin-login">Iniciar sesión como admin</a>
-                </div>
-                <div class="hero-image">
-                    <img src="https://spasesores.com/wp-content/uploads/2021/10/SP-ASESORES-Consultoria-Financiera-e1634195217140.png" alt="Consultoría Financiera">
-                </div>
-            </section>
+        <section id="hero" class="hero">
+        <div class="hero-content">
+        <h1><%= __('hero_title') %></h1>
+        <h1><%= __('hero_subtitle') %></h1>
+        <p><%= __('hero_paragraph') %></p>
+        <a href="/contacto" class="boton-header"><%= __('hero_contact') %></a>
+        <a href="/login" class="boton-header btn-admin-login"><%= __('hero_admin_login') %></a>
+        </div>
+        <div class="hero-image">
+        <img src="https://spasesores.com/wp-content/uploads/2021/10/SP-ASESORES-Consultoria-Financiera-e1634195217140.png" alt="<%= __('hero_image_alt') %>">
+        </div>
+        </section>
         </main>
     
         <footer>
-            <p>&copy; 2025 Tu Empresa de Consultoría Financiera y Contable. Todos los derechos reservados.</p>
-           
+        <p>&copy; 2025 <%= __('footer_text') %></p>
         </footer>
     </body>
 </html>

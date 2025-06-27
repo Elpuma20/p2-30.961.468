@@ -4,6 +4,7 @@ import { ContactsModel } from "../models/ContactsModel";
 import { Contact } from "../models/ContactsModel";
 import { getCountryFromIp } from "../utils/geolocationService"; 
 import axios from "axios";
+import { formatCurrency, formatDate } from '../utils/formatters';
 
 export const submitForm = async (req: Request, res: Response) => {
   const { nombre, correo, comentario } = req.body;

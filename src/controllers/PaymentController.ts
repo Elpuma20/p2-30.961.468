@@ -7,22 +7,26 @@ export class PaymentController {
   private FAKE_PAYMENT_API_URL = process.env.FAKE_PAYMENT_API_URL || 'https://fakepayment.onrender.com';
 
   // ⚡ Ruta protegida: /admin/payments
-  async index(req: Request, res: Response, next: NextFunction) {
-    try {
-      const lista = await this.model.getAllPayments();
+async index(req: Request, res: Response, next: NextFunction) {
+  try {
+    const lista = await this.model.getAllPayments();
 
-      // Convertir fechas a objetos Date si vienen como strings
-      const pagos = lista.map((pago) => ({
-        ...pago,
-        created_at: new Date(pago.created_at),
-      }));
+    const pagos = lista.map((pago) => ({
+      ...pago,
+      created_at: new Date(pago.created_at),
+    }));
 
-      return res.render('list_payments', { pagos });
-    } catch (err) {
-      console.error("❌ Error obteniendo los pagos:", err);
-      return next(err);
-    }
+const locale = req.session.language || 'es-VE';
+
+res.render('list_payments', {
+  pagos,
+  locale
+});
+  } catch (err) {
+    console.error("❌ Error obteniendo los pagos:", err);
+    return next(err);
   }
+}
 
   async add(req: Request, res: Response, next: NextFunction) {
     const errors: string[] = [];
@@ -151,13 +155,9 @@ function registrarPago(body: GuardarPagoRequestBody) {
 }
 
 function obtenerPagos(): Payment[] {
-  // Suponiendo que PaymentModel se usa para obtener pagos
+  
   const paymentModel = new PaymentModel();
-  // getAllPayments puede ser asíncrono, pero aquí lo usamos de forma síncrona para el ejemplo
-  // Si es asíncrono, deberías ajustar la función y el controlador para usar async/await
-  // Aquí se asume que getAllPayments es síncrono, si no, cambia la lógica a async
-  // return paymentModel.getAllPayments(); // Si es síncrono
-  // Si getAllPayments es asíncrono:
+  
   throw new Error('obtenerPagos debe implementarse como función asíncrona si getAllPayments es asíncrono.');
 }
 

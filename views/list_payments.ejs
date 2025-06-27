@@ -30,7 +30,7 @@
     .header-wrapper {
       display: flex;
       align-items: center;
-      gap: 12px; /* Espacio entre el título y el botón */
+      gap: 12px;
       margin-bottom: 1rem;
     }
 
@@ -42,7 +42,7 @@
     }
 
     .btn-secondary {
-      background-color: #6c757d;
+      background-color: #2a9d8f;
       color: #fff;
       border: none;
       padding: 6px 14px;
@@ -54,7 +54,7 @@
     }
 
     .btn-secondary:hover {
-      background-color: #5a6268;
+      background-color: #2a9d8f;
     }
 
     input {
@@ -66,69 +66,80 @@
     }
 
     @media (max-width: 576px) {
-  .header-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-
-.header-wrapper h2 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-}
-
-.btn-secondary {
-  background-color: #2a9d8f;
-  color: #fff;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 14px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background-color: #2a9d8f;
-}
-
+      .header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="header-wrapper">
-    <h2>Pagos Recibidos</h2>
-    <a href="/dashboard" class="btn-secondary">← Volver</a>
+    <h2><%= __('payments_title') %></h2>
+    <a href="/dashboard" class="btn-secondary">← <%= __('back') %></a>
   </div>
 
   <div>
-    <input id="nameFilter" placeholder="Filtrar por nombre">
-    <input id="emailFilter" placeholder="Filtrar por email">
-    <input id="amountFilter" placeholder="Filtrar por monto">
-    <input id="dateFilter" placeholder="Filtrar por fecha">
-    <input id="countryFilter" placeholder="Filtrar por servicio">
+    <input id="nameFilter" placeholder="<%= __('filter_name') %>">
+    <input id="emailFilter" placeholder="<%= __('filter_email') %>">
+    <input id="amountFilter" placeholder="<%= __('filter_amount') %>">
+    <input id="dateFilter" placeholder="<%= __('filter_date') %>">
+    <input id="countryFilter" placeholder="<%= __('filter_service') %>">
   </div>
-
   <table>
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Monto</th>
-        <th>Fecha</th>
-        <th>Servicio</th>
+        <th><%= __('table_name') %></th>
+        <th><%= __('table_email') %></th>
+        <th><%= __('table_amount') %></th>
+        <th><%= __('table_date') %></th>
+        <th><%= __('table_service') %></th>
       </tr>
     </thead>
     <tbody id="paymentsBody">
-      <% pagos.forEach(p => { %>
+      <% pagos.forEach(p => {
+    const idioma = locale || 'es-VE';
+    const fecha = new Date(p.created_at);
+
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const año = fecha.getFullYear();
+    let horas = fecha.getHours();
+    const minutos = String(fecha.getMinutes()).padStart(2, '0');
+
+    let fechaFormateada = '';
+
+    if (idioma.includes('en')) {
+      const ampm = horas >= 12 ? 'PM' : 'AM';
+      horas = (horas % 12) || 12;
+      horas = String(horas).padStart(2, '0');
+      fechaFormateada = `${mes}/${dia}/${año} ${horas}:${minutos} ${ampm}`;
+    } else {
+      horas = String(horas).padStart(2, '0');
+      fechaFormateada = `${dia}/${mes}/${año} ${horas}:${minutos}`;
+    }
+  %>
         <tr>
           <td><%= p.cardName %></td>
           <td><%= p.email %></td>
-          <td><%= p.amount %></td>
-          <td><%= p.created_at %></td>
+         <%
+  const monto = Number(p.amount);
+  let simbolo = '';
+  let montoFormateado = '';
+
+  if (locale.includes('en')) {
+    simbolo = 'USD $';
+    montoFormateado = simbolo + monto.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  } else {
+    simbolo = 'VES ';
+    const partes = monto.toFixed(2).split('.');
+    partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    montoFormateado = simbolo + partes.join(',') + ' Bs';
+  }
+%>
+<td><%= montoFormateado %></td>
+          <td><%= fechaFormateada %></td>
           <td><%= p.service %></td>
         </tr>
       <% }) %>
